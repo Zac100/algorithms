@@ -11,6 +11,7 @@ class LinkedList {
   constructor(head = null, tail = null) {
     this.head = head;
     this.tail = tail;
+    this.length = 0;
 
     if (this.head && !this.tail) this.tail = this.head;
   }
@@ -37,6 +38,8 @@ class LinkedList {
     if (this.tail !== null) this.tail.next = newNode;
 
     this.tail = newNode;
+
+    this.length++;
   }
 
   getAt(idx) {
@@ -57,6 +60,7 @@ class LinkedList {
     let newNode = new Node(data, oldHeadValue);
 
     this.head = newNode;
+    this.length++
   }
 
   shift(data) {
@@ -68,7 +72,7 @@ class LinkedList {
       return oldHead;
     }
     this.head = newHead;
-
+    this.length--;
     return oldHead.data;
   }
   pop() {
@@ -91,6 +95,7 @@ class LinkedList {
         current = current.next;
       }
     }
+    this.length--;
   }
 
   insertAt(index, data) {
@@ -108,12 +113,48 @@ class LinkedList {
       this.tail = newNode;
     }
     beforeNode.next = newNode;
+    this.length++;
   }
 
   removeAt(index) {
     let beforeNode = this.getAt(index - 1);
     let afterNode = this.getAt(index + 1);
     beforeNode.next = afterNode;
+    this.length--;
+  }
+
+  checkLength(){
+    let currLength = 0;
+
+    let current = this.head;
+    while(current !== null){
+      current = current.next;
+      currLength++;
+    }
+    if(currLength === this.length){
+      return `Lengths are the same! ${this.length}`
+    }else{
+      console.log('currLength = ',currLength,'this.length = ', this.length)
+      this.length = currLength;
+      return "Length attribute updated!"
+    }
+  }
+
+  reverse(){
+    // start at head and set it as the tail 
+    let node = this.head
+    this.head = this.tail;
+    this.tail = node;
+    let next;
+    let prev = null;
+
+    while (node !== null) {
+      debugger;
+      next = node.next;
+      node.next = prev;
+      prev = node;
+      node = next;
+    }
   }
 }
 
@@ -158,10 +199,18 @@ insects.walk();
 
 // insertAt(idx, data)
 // Insert a new node at position idx.
-// insects.insertAt(3,'test')
+// insects.insertAt(3, 'test');
+// insects.walk();
 
 // removeAt(idx)
 // Remove & return node at position idx.
-insects.removeAt(1);
+// insects.removeAt(1);
 
-debugger;
+//reverse
+// insects.reverse();
+
+// debugger;
+
+insects.checkLength();
+insects.length
+
